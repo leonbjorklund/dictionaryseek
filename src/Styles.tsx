@@ -34,11 +34,13 @@ export const HeaderContainerStyle = {
 
 export const SearchBarContainerStyle = {
   w: "100%",
+  flexDirection: "column",
   maxWidth: "500px",
 };
 
 export const SearchBarInputStyle = {
   paddingLeft: "2.75rem",
+  paddingRight: "6rem",
   size: "lg",
 };
 
