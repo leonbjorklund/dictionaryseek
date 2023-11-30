@@ -1,26 +1,16 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Flex, Heading } from "@chakra-ui/react";
+import { AppContainerStyle, MainContainerStyle } from "./Styles";
+import { Header } from "./components/Header";
+import SearchBar from "./components/SearchBar";
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Flex sx={AppContainerStyle}>
+      <Header />
+      <Flex sx={MainContainerStyle}>
+        <Heading>DictionarySeek</Heading>
+        <SearchBar />
+      </Flex>
+    </Flex>
   );
 }
-
-export default App;
