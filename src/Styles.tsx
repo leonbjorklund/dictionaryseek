@@ -38,13 +38,26 @@ export const SearchBarContainerStyle = {
   maxWidth: "500px",
 };
 
+export const SearchIconContainerStyle = {
+  paddingLeft: ".5rem",
+  h: "100%",
+};
+
 export const SearchBarInputStyle = {
   paddingLeft: "2.75rem",
   paddingRight: "6rem",
   size: "lg",
 };
 
-export const SearchIconContainerStyle = {
-  paddingLeft: ".5rem",
+export const SubmitSearchButtonContainerStyle = {
+  w: "auto",
   h: "100%",
+  p: "1px",
+};
+
+export const SearchErrorTextStyle = {
+  color: "red.500",
+  position: "absolute",
+  bottom: { base: "-50px", sm: "-30px" },
+  left: "0",
 };

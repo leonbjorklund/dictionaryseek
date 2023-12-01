@@ -1,13 +1,20 @@
 import { SearchIcon } from "@chakra-ui/icons";
 import { Button, Flex, Input, InputGroup, InputLeftElement, InputRightElement, Text } from "@chakra-ui/react";
 import { useState } from "react";
-import { SearchBarContainerStyle, SearchBarInputStyle, SearchIconContainerStyle } from "../Styles";
+import {
+  SearchBarContainerStyle,
+  SearchBarInputStyle,
+  SearchErrorTextStyle,
+  SearchIconContainerStyle,
+  SubmitSearchButtonContainerStyle,
+} from "../Styles";
+import { SearchResult } from "../utils/DataTypes";
 
 interface SearchBarProps {
-  setSearchResults: (results: any) => void;
+  setSearchResult: (results: SearchResult | null) => void; // Use a more specific type instead of 'any'
 }
 
-export default function SearchBar({ setSearchResults }: SearchBarProps) {
+export default function SearchBar({ setSearchResult }: SearchBarProps) {
   const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -23,20 +30,22 @@ export default function SearchBar({ setSearchResults }: SearchBarProps) {
     // Check if the input is empty
     if (!inputValue.trim()) {
       setError("You have to input a search term before searching.");
-      setSearchResults(null);
+      setSearchResult(null);
       return;
     }
 
     setLoading(true);
-    setSearchResults(null); // Reset search results on new submission
+    setSearchResult(null); // Reset search results on new submission
     try {
       const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${inputValue}`);
       if (!response.ok) {
         throw new Error(`No results for "${inputValue}" found. Try another search.`);
       }
       const data = await response.json();
-      setSearchResults(data);
-      console.log("data", data);
+      // Only use the first object in the response array
+      const firstResult = Array.isArray(data) ? data[0] : data;
+      setSearchResult(firstResult);
+      console.log("data", firstResult);
       setError("");
     } catch (error: any) {
       setError(error.message);
@@ -46,7 +55,7 @@ export default function SearchBar({ setSearchResults }: SearchBarProps) {
   };
 
   return (
-    <Flex sx={SearchBarContainerStyle}>
+    <Flex sx={SearchBarContainerStyle} position="relative">
       <form style={{ width: "100%" }} onSubmit={handleSubmit}>
         <InputGroup>
           <InputLeftElement sx={SearchIconContainerStyle}>
@@ -59,16 +68,14 @@ export default function SearchBar({ setSearchResults }: SearchBarProps) {
             onChange={handleInputChange}
             value={inputValue}
           />
-          <InputRightElement w="auto" h="100%" p="1px">
+          <InputRightElement sx={SubmitSearchButtonContainerStyle}>
             <Button h="100%" type="submit" isLoading={loading}>
               Search
             </Button>
           </InputRightElement>
         </InputGroup>
       </form>
-      <Flex flexDirection="column" mt="2" width="100%">
-        {error && <Text color="red.500">{error}</Text>}
-      </Flex>
+      {error && <Text sx={SearchErrorTextStyle}>{error}</Text>}
     </Flex>
   );
 }

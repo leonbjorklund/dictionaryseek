@@ -1,68 +1,74 @@
-import { Box, Button, Collapse, HStack, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, Collapse, HStack, Icon, IconButton, Text, VStack } from "@chakra-ui/react";
+import { AiFillSound } from "react-icons/ai";
+
 import { useState } from "react";
-import { SearchResult } from "../ResponseDataType";
+import { WordData } from "../utils/DataTypes";
+import ToggleFavoriteButton from "./ToggleFavoriteButton";
 
 type DisplayResultsProps = {
-  searchResults: SearchResult | null;
+  searchResult: Partial<WordData> | null;
+  onFavoritesUpdate: () => void;
 };
-
-export default function DisplayResults({ searchResults }: DisplayResultsProps) {
-  // State to manage the visibility of additional definitions for each part of speech
+export default function DisplayResults({ searchResult, onFavoritesUpdate }: DisplayResultsProps) {
   const [showMore, setShowMore] = useState<boolean>(false);
 
-  if (!searchResults) {
+  if (!searchResult) {
     return null;
   }
 
+  const firstPhoneticWithText = searchResult.phonetics?.find((phonetic) => phonetic.text);
+
   return (
     <Box p={5} shadow="md" borderWidth="1px">
-      {searchResults.map((result, index) => (
-        <VStack key={index} align="start" spacing={4}>
-          <HStack key={index} spacing={4} align="center">
-            <Text fontSize="xl" fontWeight="bold">
-              {result.word}
+      <VStack align="start" spacing={4}>
+        <HStack spacing={4} align="center">
+          <Text fontSize="2xl" fontWeight="bold">
+            {searchResult.word}
+          </Text>
+          {firstPhoneticWithText && (
+            <Text fontSize="md" fontWeight="semibold">
+              [{firstPhoneticWithText.text}]
             </Text>
-            {result.phonetic && (
-              <Text fontSize="md" fontWeight="semibold">
-                [{result.phonetic}]
-              </Text>
-            )}
-            {result.phonetics.map((phonetic, idx) =>
+          )}
+          {searchResult.phonetics &&
+            searchResult.phonetics.map((phonetic, idx) =>
               phonetic.audio ? (
                 <Box key={idx}>
-                  <Button
-                    onClick={() => new Audio(phonetic.audio).play()}
-                    // leftIcon={<Audio />}
-
+                  <IconButton
+                    bg="none"
                     size="sm"
+                    icon={<Icon as={AiFillSound} boxSize="1.5rem" />}
+                    aria-label="play-audio"
+                    onClick={() => new Audio(phonetic.audio).play()}
                   >
                     Play
-                  </Button>
+                  </IconButton>
                 </Box>
               ) : null
             )}
-          </HStack>
-          {/* Group definitions by part of speech */}
-          {result.meanings.map((meaning, meaningIndex) => (
+          <ToggleFavoriteButton wordData={searchResult} onFavoritesUpdate={onFavoritesUpdate} />
+        </HStack>
+        {searchResult.meanings &&
+          searchResult.meanings.map((meaning, meaningIndex) => (
             <VStack key={meaningIndex} align="start">
               <Text fontSize="md" fontWeight="semibold">
-                {meaning.partOfSpeech.toUpperCase()}
+                {meaning.partOfSpeech?.toUpperCase()}
               </Text>
-              {meaning.definitions.map((definition, defIndex) => (
-                <Collapse key={defIndex} in={showMore || defIndex === 0} animateOpacity>
-                  <Text>
-                    {defIndex + 1}. {definition.definition}
-                    {definition.example && <Text as="i">e.g., {definition.example}</Text>}
-                  </Text>
-                </Collapse>
-              ))}
+              {meaning.definitions &&
+                meaning.definitions.map((definition, defIndex) => (
+                  <Collapse key={defIndex} in={showMore || defIndex === 0} animateOpacity>
+                    <Text>
+                      {defIndex + 1}. {definition.definition}
+                      {definition.example && <Text as="i">e.g., {definition.example}</Text>}
+                    </Text>
+                  </Collapse>
+                ))}
             </VStack>
           ))}
-          <Button size="sm" onClick={() => setShowMore(!showMore)} mt={2}>
-            {showMore ? "See Less" : "See More"}
-          </Button>
-        </VStack>
-      ))}
+        <Button size="sm" onClick={() => setShowMore(!showMore)} mt={2}>
+          {showMore ? "See Less" : "See More"}
+        </Button>
+      </VStack>
     </Box>
   );
 }

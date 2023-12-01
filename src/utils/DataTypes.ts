@@ -1,6 +1,6 @@
 export type Phonetic = {
   text: string;
-  audio?: string;
+  audio: string;
 };
 
 export type Definition = {
@@ -15,12 +15,13 @@ export type Meaning = {
   definitions: Definition[];
 };
 
+// Partials används för att hantera fält som saknas i API-svaret
 export type WordData = {
   word: string;
   phonetic?: string;
-  phonetics: Phonetic[];
+  phonetics: Partial<Phonetic>[];
   origin?: string;
-  meanings: Meaning[];
+  meanings: Partial<Meaning>[];
 };
 
-export type SearchResult = WordData[];
+export type SearchResult = Partial<WordData>;
