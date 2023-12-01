@@ -1,6 +1,6 @@
 import { SearchIcon } from "@chakra-ui/icons";
 import { Button, Flex, Input, InputGroup, InputLeftElement, InputRightElement, Text } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   SearchBarContainerStyle,
   SearchBarInputStyle,
@@ -13,10 +13,20 @@ import { useSearch } from "../utils/useSearch";
 
 interface SearchBarProps {
   setSearchResult: (result: SearchResult | null) => void;
+  clearSearch: boolean;
+  setClearSearch: (clearSearch: boolean) => void;
 }
 
-export default function SearchBar({ setSearchResult }: SearchBarProps) {
+export default function SearchBar({ setSearchResult, clearSearch }: SearchBarProps) {
+
   const [inputValue, setInputValue] = useState("");
+  useEffect(() => {
+    setInputValue("");
+
+  },[clearSearch])
+
+
+
 
   // hook för sökning
   const { loading, error, performSearch, clearError } = useSearch(setSearchResult);

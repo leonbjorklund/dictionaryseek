@@ -10,6 +10,7 @@ import { useFavorites } from "./utils/useFavorites";
 export default function App() {
   // parent håller state för sökresultat och favoriter
   const [searchResult, setSearchResult] = useState<SearchResult | null>(null);
+  const [clearSearch, setClearSearch] = useState<boolean>(false);
   const { favorites, updateFavorites } = useFavorites();
 
   const handleWordSelect = (wordData: Partial<WordData>) => {
@@ -21,8 +22,8 @@ export default function App() {
       <Header favorites={favorites} handleWordSelect={handleWordSelect} />
       <Flex as="main" sx={MainContainerStyle}>
         <Heading>DictionarySeek</Heading>
-        <SearchBar setSearchResult={setSearchResult} />
-        <DisplayResults searchResult={searchResult} onFavoritesUpdate={updateFavorites} />
+        <SearchBar setSearchResult={setSearchResult} clearSearch={clearSearch} setClearSearch={setClearSearch} />
+        <DisplayResults searchResult={searchResult} setSearchResult={setSearchResult} setClearSearch={setClearSearch} onFavoritesUpdate={updateFavorites} />
       </Flex>
     </Flex>
   );

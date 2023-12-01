@@ -3,14 +3,16 @@ import { AiFillSound } from "react-icons/ai";
 
 import { CloseIcon } from "@chakra-ui/icons";
 import { useState } from "react";
-import { Meaning, WordData } from "../utils/DataTypes";
+import { Meaning, SearchResult, WordData } from "../utils/DataTypes";
 import ToggleFavoriteButton from "./ToggleFavoriteButton";
 
 interface DisplayResultsProps {
   searchResult: Partial<WordData> | null;
+  setSearchResult: (result: SearchResult | null) => void;
+  setClearSearch: (clearSearch: boolean) => void;
   onFavoritesUpdate: () => void;
 }
-export default function DisplayResults({ searchResult, onFavoritesUpdate }: DisplayResultsProps) {
+export default function DisplayResults({ searchResult, setSearchResult, onFavoritesUpdate, setClearSearch }: DisplayResultsProps) {
   const [showMore, setShowMore] = useState<boolean>(false);
 
   if (!searchResult) return null;
@@ -49,7 +51,10 @@ export default function DisplayResults({ searchResult, onFavoritesUpdate }: Disp
           {/* Passera lyssnare favorite updates så toggle-favorite kan ge favoriten till FavoritesMenu */}
           <ToggleFavoriteButton wordData={searchResult} onFavoritesUpdate={onFavoritesUpdate} />
           <Spacer />
-          <IconButton icon={<CloseIcon />} aria-label="close" onClick={() => (searchResult = null)} />
+          <IconButton icon={<CloseIcon />} aria-label="close" onClick={() => {
+            setSearchResult(null)
+            setClearSearch(true);
+           } } />
         </HStack>
         {searchResult.meanings &&
           searchResult.meanings.map((meaning, meaningIndex) => (
