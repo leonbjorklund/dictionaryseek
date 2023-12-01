@@ -15,7 +15,7 @@ export default function DisplayResults({ searchResult, onFavoritesUpdate }: Disp
   if (!searchResult) {
     return null;
   }
-
+  // Ta det första fontesiska uttalet
   const firstPhoneticWithText = searchResult.phonetics?.find((phonetic) => phonetic.text);
 
   return (
@@ -46,6 +46,7 @@ export default function DisplayResults({ searchResult, onFavoritesUpdate }: Disp
                 </Box>
               ) : null
             )}
+          {/* Passera lyssnare favorite updates så toggle-favorite kan ge favoriten till FavoritesMenu */}
           <ToggleFavoriteButton wordData={searchResult} onFavoritesUpdate={onFavoritesUpdate} />
         </HStack>
         {searchResult.meanings &&

@@ -11,7 +11,7 @@ export default function App() {
   const [favorites, setFavorites] = useState<Partial<WordData>[]>([]);
 
   useEffect(() => {
-    // Load favorites from sessionStorage on component mount
+    // Ladda in favoriter från sessionStorage vid första render
     const storedFavorites = JSON.parse(sessionStorage.getItem("favorites") || "[]");
     setFavorites(storedFavorites);
   }, []);

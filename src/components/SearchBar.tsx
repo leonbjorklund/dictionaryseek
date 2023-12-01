@@ -11,7 +11,7 @@ import {
 import { SearchResult } from "../utils/DataTypes";
 
 interface SearchBarProps {
-  setSearchResult: (results: SearchResult | null) => void; // Use a more specific type instead of 'any'
+  setSearchResult: (results: SearchResult | null) => void;
 }
 
 export default function SearchBar({ setSearchResult }: SearchBarProps) {
@@ -27,7 +27,7 @@ export default function SearchBar({ setSearchResult }: SearchBarProps) {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Check if the input is empty
+    // Kolla om input saknas
     if (!inputValue.trim()) {
       setError("You have to input a search term before searching.");
       setSearchResult(null);
@@ -35,7 +35,7 @@ export default function SearchBar({ setSearchResult }: SearchBarProps) {
     }
 
     setLoading(true);
-    setSearchResult(null); // Reset search results on new submission
+    setSearchResult(null); // Töm sökresultatet vid ny sökning
     try {
       const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${inputValue}`);
       if (!response.ok) {

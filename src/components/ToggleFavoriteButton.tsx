@@ -12,7 +12,7 @@ export default function ToggleFavoriteButton({ wordData, onFavoritesUpdate }: To
   const toast = useToast();
   const [isFavorited, setIsFavorited] = useState(false);
 
-  // Kolla om order finns i favorites vid mount
+  // Kolla om ordet finns i favorites vid mount
   useEffect(() => {
     const favorites: Partial<WordData>[] = JSON.parse(sessionStorage.getItem("favorites") || "[]");
     setIsFavorited(favorites.some((fav) => fav.word === wordData.word));
@@ -24,7 +24,7 @@ export default function ToggleFavoriteButton({ wordData, onFavoritesUpdate }: To
 
     let toastTitle = "";
     if (index === -1) {
-      // Add to favorites
+      // Lägg till i favorites
       favorites.push(wordData);
       toastTitle = "Word added to favorites!";
       setIsFavorited(true);
@@ -37,7 +37,7 @@ export default function ToggleFavoriteButton({ wordData, onFavoritesUpdate }: To
 
     sessionStorage.setItem("favorites", JSON.stringify(favorites));
 
-    // Uppdatera favorites i App.tsx
+    // Uppdatera favorites i parent-App.tsx
     onFavoritesUpdate();
 
     toast({
