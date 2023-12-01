@@ -17,7 +17,7 @@ export default function FavoritesMenu({ favorites, onWordSelect }: FavoritesMenu
       {({ isOpen }) => (
         <>
           <MenuButton isActive={isOpen} as={Button} rightIcon={isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}>
-            Favorited
+            Favorites
           </MenuButton>
           <MenuList p="0">
             {favorites.length === 0 ? (

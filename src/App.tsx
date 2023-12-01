@@ -28,7 +28,7 @@ export default function App() {
   return (
     <Flex sx={AppContainerStyle}>
       <Header favorites={favorites} handleWordSelect={handleWordSelect} />
-      <Flex sx={MainContainerStyle}>
+      <Flex as="main" sx={MainContainerStyle}>
         <Heading>DictionarySeek</Heading>
         <SearchBar setSearchResult={setSearchResult} />
         <DisplayResults searchResult={searchResult} onFavoritesUpdate={updateFavorites} />

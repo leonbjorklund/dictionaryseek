@@ -19,7 +19,7 @@ export default function DisplayResults({ searchResult, onFavoritesUpdate }: Disp
   const firstPhoneticWithText = searchResult.phonetics?.find((phonetic) => phonetic.text);
 
   return (
-    <Box p={5} shadow="md" borderWidth="1px">
+    <Box p={5} shadow="md" borderWidth="1px" maxWidth="600px">
       <VStack align="start" spacing={4}>
         <HStack spacing={4} align="center">
           <Text fontSize="2xl" fontWeight="bold">
