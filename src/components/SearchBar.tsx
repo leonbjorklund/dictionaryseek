@@ -9,49 +9,28 @@ import {
   SubmitSearchButtonContainerStyle,
 } from "../Styles";
 import { SearchResult } from "../utils/DataTypes";
+import { useSearch } from "../utils/useSearch";
 
 interface SearchBarProps {
-  setSearchResult: (results: SearchResult | null) => void;
+  setSearchResult: (result: SearchResult | null) => void;
 }
 
 export default function SearchBar({ setSearchResult }: SearchBarProps) {
   const [inputValue, setInputValue] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+
+  // hook för sökning
+  const { loading, error, performSearch, clearError } = useSearch(setSearchResult);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
-    setError("");
+    clearError(); // ta bort error vid ny input
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    setSearchResult(null); // återställ sökresultatet
+
     e.preventDefault();
-
-    // Kolla om input saknas
-    if (!inputValue.trim()) {
-      setError("You have to input a search term before searching.");
-      setSearchResult(null);
-      return;
-    }
-
-    setLoading(true);
-    setSearchResult(null); // Töm sökresultatet vid ny sökning
-    try {
-      const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${inputValue}`);
-      if (!response.ok) {
-        throw new Error(`No results for "${inputValue}" found. Try another search.`);
-      }
-      const data = await response.json();
-      // Only use the first object in the response array
-      const firstResult = Array.isArray(data) ? data[0] : data;
-      setSearchResult(firstResult);
-      console.log("data", firstResult);
-      setError("");
-    } catch (error: any) {
-      setError(error.message);
-    } finally {
-      setLoading(false);
-    }
+    performSearch(inputValue);
   };
 
   return (

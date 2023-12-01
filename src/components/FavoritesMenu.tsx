@@ -1,5 +1,5 @@
-import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
-import { Button, Menu, MenuButton, MenuItem, MenuList, useColorModeValue } from "@chakra-ui/react";
+import { ArrowForwardIcon, ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
+import { Button, Menu, MenuButton, MenuItem, MenuList, Spacer, useColorModeValue } from "@chakra-ui/react";
 import { WordData } from "../utils/DataTypes";
 
 interface FavoritesMenuProps {
@@ -19,9 +19,9 @@ export default function FavoritesMenu({ favorites, onWordSelect }: FavoritesMenu
           <MenuButton isActive={isOpen} as={Button} rightIcon={isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}>
             Favorites
           </MenuButton>
-          <MenuList p="0">
+          <MenuList p="0" sx={{ width: "100px" }}>
             {favorites.length === 0 ? (
-              <MenuItem borderRadius="5px" bg={menuItemBg} color={menuItemColor}>
+              <MenuItem borderRadius="5px" bg={menuItemBg} color={menuItemColor} cursor="default">
                 No favorites yet!
               </MenuItem>
             ) : (
@@ -35,6 +35,8 @@ export default function FavoritesMenu({ favorites, onWordSelect }: FavoritesMenu
                   onClick={() => onWordSelect(wordData)}
                 >
                   {wordData.word}
+                  <Spacer />
+                  <ArrowForwardIcon />
                 </MenuItem>
               ))
             )}

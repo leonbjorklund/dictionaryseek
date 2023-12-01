@@ -1,27 +1,27 @@
-import { Box, Button, Collapse, HStack, Icon, IconButton, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, Collapse, HStack, Icon, IconButton, Spacer, Text, VStack } from "@chakra-ui/react";
 import { AiFillSound } from "react-icons/ai";
 
+import { CloseIcon } from "@chakra-ui/icons";
 import { useState } from "react";
-import { WordData } from "../utils/DataTypes";
+import { Meaning, WordData } from "../utils/DataTypes";
 import ToggleFavoriteButton from "./ToggleFavoriteButton";
 
-type DisplayResultsProps = {
+interface DisplayResultsProps {
   searchResult: Partial<WordData> | null;
   onFavoritesUpdate: () => void;
-};
+}
 export default function DisplayResults({ searchResult, onFavoritesUpdate }: DisplayResultsProps) {
   const [showMore, setShowMore] = useState<boolean>(false);
 
-  if (!searchResult) {
-    return null;
-  }
+  if (!searchResult) return null;
+
   // Ta det första fontesiska uttalet
   const firstPhoneticWithText = searchResult.phonetics?.find((phonetic) => phonetic.text);
 
   return (
-    <Box p={5} shadow="md" borderWidth="1px" maxWidth="600px">
+    <Box p={5} shadow="md" borderWidth="1px" maxWidth="600px" w="100%">
       <VStack align="start" spacing={4}>
-        <HStack spacing={4} align="center">
+        <HStack spacing={4} align="center" w="100%">
           <Text fontSize="2xl" fontWeight="bold">
             {searchResult.word}
           </Text>
@@ -48,23 +48,12 @@ export default function DisplayResults({ searchResult, onFavoritesUpdate }: Disp
             )}
           {/* Passera lyssnare favorite updates så toggle-favorite kan ge favoriten till FavoritesMenu */}
           <ToggleFavoriteButton wordData={searchResult} onFavoritesUpdate={onFavoritesUpdate} />
+          <Spacer />
+          <IconButton icon={<CloseIcon />} aria-label="close" onClick={() => (searchResult = null)} />
         </HStack>
         {searchResult.meanings &&
           searchResult.meanings.map((meaning, meaningIndex) => (
-            <VStack key={meaningIndex} align="start">
-              <Text fontSize="md" fontWeight="semibold">
-                {meaning.partOfSpeech?.toUpperCase()}
-              </Text>
-              {meaning.definitions &&
-                meaning.definitions.map((definition, defIndex) => (
-                  <Collapse key={defIndex} in={showMore || defIndex === 0} animateOpacity>
-                    <Text>
-                      {defIndex + 1}. {definition.definition}
-                      {definition.example && <Text as="i">e.g., {definition.example}</Text>}
-                    </Text>
-                  </Collapse>
-                ))}
-            </VStack>
+            <MeaningDisplay key={meaningIndex} meaning={meaning} showMore={showMore} />
           ))}
         <Button size="sm" onClick={() => setShowMore(!showMore)} mt={2}>
           {showMore ? "See Less" : "See More"}
@@ -73,3 +62,27 @@ export default function DisplayResults({ searchResult, onFavoritesUpdate }: Disp
     </Box>
   );
 }
+
+interface MeaningProps {
+  meaning: Partial<Meaning>;
+  showMore: boolean;
+}
+
+export const MeaningDisplay: React.FC<MeaningProps> = ({ meaning, showMore }) => {
+  return (
+    <VStack key={meaning.partOfSpeech} align="start">
+      <Text fontSize="md" fontWeight="semibold">
+        {meaning.partOfSpeech?.toUpperCase()}
+      </Text>
+      {meaning.definitions &&
+        meaning.definitions.map((definition, defIndex) => (
+          <Collapse key={defIndex} in={showMore || defIndex < 2} animateOpacity>
+            <Text>
+              {defIndex + 1}. {definition.definition} <br />
+              {definition.example && <Text as="i">Example: {definition.example}</Text>}
+            </Text>
+          </Collapse>
+        ))}
+    </VStack>
+  );
+};

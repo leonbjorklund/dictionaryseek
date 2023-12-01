@@ -1,28 +1,19 @@
 import { Flex, Heading } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AppContainerStyle, MainContainerStyle } from "./Styles";
 import DisplayResults from "./components/DisplayResults";
 import { Header } from "./components/Header";
 import SearchBar from "./components/SearchBar";
 import { SearchResult, WordData } from "./utils/DataTypes";
+import { useFavorites } from "./utils/useFavorites";
 
 export default function App() {
+  // parent håller state för sökresultat och favoriter
   const [searchResult, setSearchResult] = useState<SearchResult | null>(null);
-  const [favorites, setFavorites] = useState<Partial<WordData>[]>([]);
-
-  useEffect(() => {
-    // Ladda in favoriter från sessionStorage vid första render
-    const storedFavorites = JSON.parse(sessionStorage.getItem("favorites") || "[]");
-    setFavorites(storedFavorites);
-  }, []);
+  const { favorites, updateFavorites } = useFavorites();
 
   const handleWordSelect = (wordData: Partial<WordData>) => {
     setSearchResult(wordData);
-  };
-
-  const updateFavorites = () => {
-    const storedFavorites = JSON.parse(sessionStorage.getItem("favorites") || "[]");
-    setFavorites(storedFavorites);
   };
 
   return (
