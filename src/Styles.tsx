@@ -7,11 +7,10 @@ export const AppContainerStyle = {
 
 export const MainContainerStyle = {
   flexDirection: "column",
-  height: "90%",
+  justifyContent: "center",
+  alignItems: "center",
   p: "2rem",
   gap: "1.5rem",
-  alignItems: "center",
-  justifyContent: "center",
   "&>h2": {
     fontSize: "42px",
   },
@@ -20,10 +19,9 @@ export const MainContainerStyle = {
 // Header.tsx styles:
 
 export const HeaderContainerStyle = {
-  position: "absolute",
   width: "100%",
-  px: "4",
-  py: "3",
+  px: "4rem",
+  py: "1rem",
   gap: "4",
   alignItems: "center",
   justifyContent: "space-between",

@@ -8,37 +8,25 @@ import {
   SearchIconContainerStyle,
   SubmitSearchButtonContainerStyle,
 } from "../Styles";
-import { SearchResult } from "../utils/DataTypes";
+import { useAppContext } from "../utils/AppContext";
 import { useSearch } from "../utils/useSearch";
 
-interface SearchBarProps {
-  setSearchResult: (result: SearchResult | null) => void;
-  clearSearch: boolean;
-  setClearSearch: (clearSearch: boolean) => void;
-}
-
-export default function SearchBar({ setSearchResult, clearSearch }: SearchBarProps) {
+export default function SearchBar() {
 
   const [inputValue, setInputValue] = useState("");
+  const { clearSearch, setSearchResult } = useAppContext();
+  const { loading, error, performSearch, clearError } = useSearch(setSearchResult);
+
   useEffect(() => {
     setInputValue("");
-
-  },[clearSearch])
-
-
-
-
-  // hook för sökning
-  const { loading, error, performSearch, clearError } = useSearch(setSearchResult);
+  }, [clearSearch]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
-    clearError(); // ta bort error vid ny input
+    clearError(); // Ta bort error om användaren inputtar något
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    setSearchResult(null); // återställ sökresultatet
-
     e.preventDefault();
     performSearch(inputValue);
   };

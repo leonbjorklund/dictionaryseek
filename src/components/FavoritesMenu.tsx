@@ -1,16 +1,14 @@
 import { ArrowForwardIcon, ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import { Button, Menu, MenuButton, MenuItem, MenuList, Spacer, useColorModeValue } from "@chakra-ui/react";
-import { WordData } from "../utils/DataTypes";
+import { useAppContext } from "../utils/AppContext";
 
-interface FavoritesMenuProps {
-  favorites: Partial<WordData>[];
-  onWordSelect: (wordData: Partial<WordData>) => void;
-}
 
-export default function FavoritesMenu({ favorites, onWordSelect }: FavoritesMenuProps) {
+export default function FavoritesMenu() {
   const menuItemBg = useColorModeValue("gray.100", "#2C313D");
   const menuItemHoverBg = useColorModeValue("gray.200", "#3F444E");
   const menuItemColor = useColorModeValue("gray.900", "white");
+
+  const {favorites, setSearchResult} = useAppContext();
 
   return (
     <Menu>
@@ -32,7 +30,7 @@ export default function FavoritesMenu({ favorites, onWordSelect }: FavoritesMenu
                   bg={menuItemBg}
                   color={menuItemColor}
                   _hover={{ bg: menuItemHoverBg }}
-                  onClick={() => onWordSelect(wordData)}
+                  onClick={() => setSearchResult(wordData)}
                 >
                   {wordData.word}
                   <Spacer />

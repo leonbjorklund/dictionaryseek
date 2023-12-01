@@ -1,35 +1,30 @@
-import { Box, Button, Collapse, HStack, Icon, IconButton, Spacer, Text, VStack } from "@chakra-ui/react";
-import { AiFillSound } from "react-icons/ai";
-
 import { CloseIcon } from "@chakra-ui/icons";
+import { Box, Button, Collapse, Flex, HStack, Icon, IconButton, Spacer, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
-import { Meaning, SearchResult, WordData } from "../utils/DataTypes";
+import { AiFillSound } from "react-icons/ai";
+import { useAppContext } from "../utils/AppContext";
+import { Meaning } from "../utils/DataTypes";
 import ToggleFavoriteButton from "./ToggleFavoriteButton";
 
-interface DisplayResultsProps {
-  searchResult: Partial<WordData> | null;
-  setSearchResult: (result: SearchResult | null) => void;
-  setClearSearch: (clearSearch: boolean) => void;
-  onFavoritesUpdate: () => void;
-}
-export default function DisplayResults({ searchResult, setSearchResult, onFavoritesUpdate, setClearSearch }: DisplayResultsProps) {
+export default function DisplayResults() {
   const [showMore, setShowMore] = useState<boolean>(false);
 
+  const { searchResult, setSearchResult, setClearSearch }= useAppContext();
   if (!searchResult) return null;
 
   // Ta det första fontesiska uttalet
-  const firstPhoneticWithText = searchResult.phonetics?.find((phonetic) => phonetic.text);
+  const firstPhonetic = searchResult.phonetics?.find((phonetic) => phonetic.text);
 
   return (
-    <Box p={5} shadow="md" borderWidth="1px" maxWidth="600px" w="100%">
-      <VStack align="start" spacing={4}>
+    <Flex p="1.5rem" shadow="md" borderWidth="1px" borderRadius="2px" maxWidth="600px" w="100%">
+      <VStack align="start" spacing={2}>
         <HStack spacing={4} align="center" w="100%">
           <Text fontSize="2xl" fontWeight="bold">
             {searchResult.word}
           </Text>
-          {firstPhoneticWithText && (
+          {firstPhonetic && (
             <Text fontSize="md" fontWeight="semibold">
-              [{firstPhoneticWithText.text}]
+              [{firstPhonetic.text}]
             </Text>
           )}
           {searchResult.phonetics &&
@@ -48,10 +43,9 @@ export default function DisplayResults({ searchResult, setSearchResult, onFavori
                 </Box>
               ) : null
             )}
-          {/* Passera lyssnare favorite updates så toggle-favorite kan ge favoriten till FavoritesMenu */}
-          <ToggleFavoriteButton wordData={searchResult} onFavoritesUpdate={onFavoritesUpdate} />
+          <ToggleFavoriteButton wordData={searchResult}  />
           <Spacer />
-          <IconButton icon={<CloseIcon />} aria-label="close" onClick={() => {
+          <IconButton p="2px" icon={<CloseIcon />} aria-label="close" onClick={() => {
             setSearchResult(null)
             setClearSearch(true);
            } } />
@@ -64,7 +58,7 @@ export default function DisplayResults({ searchResult, setSearchResult, onFavori
           {showMore ? "See Less" : "See More"}
         </Button>
       </VStack>
-    </Box>
+    </Flex>
   );
 }
 
