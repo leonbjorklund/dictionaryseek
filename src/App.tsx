@@ -5,16 +5,14 @@ import { Header } from "./components/Header";
 import SearchBar from "./components/SearchBar";
 
 export default function App() {
-    return (
+  return (
     <Flex sx={AppContainerStyle}>
       <Header />
-        <Flex as="main" sx={MainContainerStyle}>
-        {/* <Flex sx={LogoSearchBarContainerStyle}> */}
-          <Heading>DictionarySeek</Heading>
-          <SearchBar />
-        {/* </Flex> */}
-          <DisplayResults />
-    </Flex>
+      <Flex as="main" sx={MainContainerStyle}>
+        <Heading>DictionarySeek</Heading>
+        <SearchBar />
+        <DisplayResults />
+      </Flex>
     </Flex>
   );
 }

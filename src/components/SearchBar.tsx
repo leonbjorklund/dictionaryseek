@@ -12,14 +12,15 @@ import { useAppContext } from "../utils/AppContext";
 import { useSearch } from "../utils/useSearch";
 
 export default function SearchBar() {
-
   const [inputValue, setInputValue] = useState("");
-  const { clearSearch, setSearchResult } = useAppContext();
+  const { clearSearch, setClearSearch, setSearchResult } = useAppContext();
   const { loading, error, performSearch, clearError } = useSearch(setSearchResult);
 
+  // rensa sökfält när man stänger ner resultatet
   useEffect(() => {
     setInputValue("");
-  }, [clearSearch]);
+    setClearSearch(false);
+  }, [clearSearch, setClearSearch]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -32,7 +33,7 @@ export default function SearchBar() {
   };
 
   return (
-    <Flex sx={SearchBarContainerStyle} position="relative">
+    <Flex data-testid="searchbar" sx={SearchBarContainerStyle} position="relative">
       <form style={{ width: "100%" }} onSubmit={handleSubmit}>
         <InputGroup>
           <InputLeftElement sx={SearchIconContainerStyle}>

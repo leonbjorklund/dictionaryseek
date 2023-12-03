@@ -1,6 +1,6 @@
 import { CloseIcon } from "@chakra-ui/icons";
 import { Box, Button, Collapse, Flex, HStack, Icon, IconButton, Spacer, Text, VStack } from "@chakra-ui/react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { AiFillSound } from "react-icons/ai";
 import { DisplayResultContainerStyle } from "../Styles";
 import { useAppContext } from "../utils/AppContext";
@@ -8,17 +8,25 @@ import { Meaning } from "../utils/DataTypes";
 import ToggleFavoriteButton from "./ToggleFavoriteButton";
 
 export default function DisplayResults() {
-  const [showMore, setShowMore] = useState<boolean>(false);
+  const [showMoreStates, setShowMoreStates] = useState<{ [key: number]: boolean }>({});
+  const { searchResult, setSearchResult, setClearSearch } = useAppContext();
 
-  const {searchResult, setSearchResult, setClearSearch}= useAppContext();
   if (!searchResult) return null;
 
-  // Ta det första fontesiska uttalet
+  // ta första fonetiska uttalet
   const firstPhonetic = searchResult.phonetics?.find((phonetic) => phonetic.text);
+
+  // visa mer/visa mindre
+  const toggleShowMore = (index: number) => {
+    setShowMoreStates((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
+  };
 
   return (
     <Flex sx={DisplayResultContainerStyle}>
-      <VStack align="start" spacing={2}>
+      <VStack w="100%" align="start" spacing={2}>
         <HStack spacing={4} align="center" w="100%">
           <Text fontSize="2xl" fontWeight="bold">
             {searchResult.word}
@@ -38,26 +46,32 @@ export default function DisplayResults() {
                     icon={<Icon as={AiFillSound} boxSize="1.5rem" />}
                     aria-label="play-audio"
                     onClick={() => new Audio(phonetic.audio).play()}
-                  >
-                    Play
-                  </IconButton>
+                  />
                 </Box>
               ) : null
             )}
-          <ToggleFavoriteButton wordData={searchResult}  />
+          <ToggleFavoriteButton wordData={searchResult} />
           <Spacer />
-          <IconButton p="2px" icon={<CloseIcon />} aria-label="close" onClick={() => {
-            setSearchResult(null)
-            setClearSearch(true);
-           } } />
+          <IconButton
+            p="2px"
+            icon={<CloseIcon />}
+            aria-label="close"
+            onClick={() => {
+              setSearchResult(null);
+              setClearSearch(true);
+            }}
+          />
         </HStack>
+        {/* visa alla betydelser */}
         {searchResult.meanings &&
           searchResult.meanings.map((meaning, meaningIndex) => (
-            <MeaningDisplay key={meaningIndex} meaning={meaning} showMore={showMore} />
+            <MeaningDisplay
+              key={meaningIndex}
+              meaning={meaning}
+              showMore={showMoreStates[meaningIndex] || false}
+              onToggleShowMore={() => toggleShowMore(meaningIndex)}
+            />
           ))}
-        <Button size="sm" onClick={() => setShowMore(!showMore)} mt={2}>
-          {showMore ? "See Less" : "See More"}
-        </Button>
       </VStack>
     </Flex>
   );
@@ -66,11 +80,13 @@ export default function DisplayResults() {
 interface MeaningProps {
   meaning: Partial<Meaning>;
   showMore: boolean;
+  onToggleShowMore: () => void;
 }
 
-export const MeaningDisplay: React.FC<MeaningProps> = ({ meaning, showMore }) => {
+// memo används för att undvika att rendera om komponenten i onödan
+export const MeaningDisplay = React.memo(({ meaning, showMore, onToggleShowMore }: MeaningProps) => {
   return (
-    <VStack key={meaning.partOfSpeech} align="start">
+    <VStack align="start" spacing={2}>
       <Text fontSize="md" fontWeight="semibold">
         {meaning.partOfSpeech?.toUpperCase()}
       </Text>
@@ -78,15 +94,17 @@ export const MeaningDisplay: React.FC<MeaningProps> = ({ meaning, showMore }) =>
         meaning.definitions.map((definition, defIndex) => (
           <Collapse key={defIndex} in={showMore || defIndex < 2} animateOpacity>
             <Text>
-              {defIndex + 1}. {definition.definition} <br />
+              {defIndex + 1}. {definition.definition}
+              <br />
               {definition.example && <Text as="i">Example: {definition.example}</Text>}
             </Text>
           </Collapse>
         ))}
+      {meaning.definitions && meaning.definitions.length > 2 && (
+        <Button size="sm" onClick={onToggleShowMore} mt={2}>
+          {showMore ? "See Less" : "See More"}
+        </Button>
+      )}
     </VStack>
   );
-};
-
-
-
-
+});

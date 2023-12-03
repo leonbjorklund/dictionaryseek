@@ -16,14 +16,6 @@ export const MainContainerStyle = {
   },
 };
 
-// export const LogoSearchBarContainerStyle = {
-//   w: "100%",
-//   flexDirection: "column",
-//   alignItems: "center",
-//   gap: "1rem",
-// };
-
-
 // Header.tsx styles:
 
 export const HeaderContainerStyle = {

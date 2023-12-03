@@ -19,7 +19,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const { favorites, setFavorites } = useFavorites();
 
   return (
-    <AppContext.Provider value={{ clearSearch, setClearSearch, searchResult, setSearchResult, favorites, setFavorites }}>
+    <AppContext.Provider
+      value={{ clearSearch, setClearSearch, searchResult, setSearchResult, favorites, setFavorites }}
+    >
       {children}
     </AppContext.Provider>
   );
@@ -28,7 +30,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 export function useAppContext() {
   const context = useContext(AppContext);
   if (!context) {
-    throw new Error('useAppContext must be used within an AppProvider');
+    throw new Error("useAppContext must be used within an AppProvider");
   }
   return context;
 }

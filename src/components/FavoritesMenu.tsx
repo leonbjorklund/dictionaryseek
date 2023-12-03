@@ -2,13 +2,12 @@ import { ArrowForwardIcon, ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/ico
 import { Button, Menu, MenuButton, MenuItem, MenuList, Spacer, useColorModeValue } from "@chakra-ui/react";
 import { useAppContext } from "../utils/AppContext";
 
-
 export default function FavoritesMenu() {
   const menuItemBg = useColorModeValue("gray.100", "#2C313D");
   const menuItemHoverBg = useColorModeValue("gray.200", "#3F444E");
   const menuItemColor = useColorModeValue("gray.900", "white");
 
-  const {favorites, setSearchResult} = useAppContext();
+  const { favorites, setSearchResult } = useAppContext();
 
   return (
     <Menu>
