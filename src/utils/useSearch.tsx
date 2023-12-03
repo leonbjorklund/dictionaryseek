@@ -7,7 +7,7 @@ export const useSearch = (setSearchResult: (result: SearchResult | null) => void
 
   const performSearch = async (inputValue: string) => {
     if (!inputValue.trim()) {
-      setError("You have to have an input to search");
+      setError("You have to have an input to search.");
       return;
     }
 

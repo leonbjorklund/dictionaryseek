@@ -9,13 +9,11 @@ export default function App() {
     <Flex sx={AppContainerStyle}>
       <Header />
         <Flex as="main" sx={MainContainerStyle}>
-        <Flex direction="column" position="relative" w="100%" alignItems="center" gap="1rem">
+        {/* <Flex sx={LogoSearchBarContainerStyle}> */}
           <Heading>DictionarySeek</Heading>
           <SearchBar />
-        </Flex>
-        <Flex>
+        {/* </Flex> */}
           <DisplayResults />
-        </Flex>
     </Flex>
     </Flex>
   );

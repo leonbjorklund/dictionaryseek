@@ -16,7 +16,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export function AppProvider({ children }: { children: ReactNode }) {
   const [clearSearch, setClearSearch] = useState<boolean>(false);
   const [searchResult, setSearchResult] = useState<SearchResult | null>(null);
-  const { favorites, setFavorites } = useFavorites(); // Assuming useFavorites is a custom hook
+  const { favorites, setFavorites } = useFavorites();
 
   return (
     <AppContext.Provider value={{ clearSearch, setClearSearch, searchResult, setSearchResult, favorites, setFavorites }}>

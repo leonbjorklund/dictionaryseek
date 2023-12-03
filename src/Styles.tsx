@@ -10,11 +10,19 @@ export const MainContainerStyle = {
   justifyContent: "center",
   alignItems: "center",
   p: "2rem",
-  gap: "1.5rem",
+  gap: "1rem",
   "&>h2": {
     fontSize: "42px",
   },
 };
+
+// export const LogoSearchBarContainerStyle = {
+//   w: "100%",
+//   flexDirection: "column",
+//   alignItems: "center",
+//   gap: "1rem",
+// };
+
 
 // Header.tsx styles:
 
@@ -58,4 +66,16 @@ export const SearchErrorTextStyle = {
   position: "absolute",
   bottom: { base: "-50px", sm: "-30px" },
   left: "0",
+};
+
+// DisplayResults.tsx styles:
+
+export const DisplayResultContainerStyle = {
+  p: "1.5rem",
+  mt: ".5rem",
+  shadow: "md",
+  borderWidth: "1px",
+  borderRadius: "2px",
+  maxWidth: "600px",
+  w: "100%",
 };

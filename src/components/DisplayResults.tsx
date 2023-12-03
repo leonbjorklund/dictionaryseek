@@ -2,6 +2,7 @@ import { CloseIcon } from "@chakra-ui/icons";
 import { Box, Button, Collapse, Flex, HStack, Icon, IconButton, Spacer, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { AiFillSound } from "react-icons/ai";
+import { DisplayResultContainerStyle } from "../Styles";
 import { useAppContext } from "../utils/AppContext";
 import { Meaning } from "../utils/DataTypes";
 import ToggleFavoriteButton from "./ToggleFavoriteButton";
@@ -9,14 +10,14 @@ import ToggleFavoriteButton from "./ToggleFavoriteButton";
 export default function DisplayResults() {
   const [showMore, setShowMore] = useState<boolean>(false);
 
-  const { searchResult, setSearchResult, setClearSearch }= useAppContext();
+  const {searchResult, setSearchResult, setClearSearch}= useAppContext();
   if (!searchResult) return null;
 
   // Ta det första fontesiska uttalet
   const firstPhonetic = searchResult.phonetics?.find((phonetic) => phonetic.text);
 
   return (
-    <Flex p="1.5rem" shadow="md" borderWidth="1px" borderRadius="2px" maxWidth="600px" w="100%">
+    <Flex sx={DisplayResultContainerStyle}>
       <VStack align="start" spacing={2}>
         <HStack spacing={4} align="center" w="100%">
           <Text fontSize="2xl" fontWeight="bold">
@@ -85,3 +86,7 @@ export const MeaningDisplay: React.FC<MeaningProps> = ({ meaning, showMore }) =>
     </VStack>
   );
 };
+
+
+
+
