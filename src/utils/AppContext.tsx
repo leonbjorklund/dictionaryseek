@@ -2,6 +2,7 @@ import { ReactNode, createContext, useContext, useState } from "react";
 import { SearchResult, WordData } from "./DataTypes";
 import { useFavorites } from "./useFavorites";
 
+// kontext används för att dela data mellan komponenter, så vi slipper props drilling
 interface AppContextType {
   clearSearch: boolean;
   setClearSearch: (value: boolean) => void;

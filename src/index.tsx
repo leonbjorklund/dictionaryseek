@@ -11,7 +11,7 @@ root.render(
   <React.StrictMode>
     <ChakraProvider>
       <AppProvider>
-      <App />
+        <App />
       </AppProvider>
     </ChakraProvider>
   </React.StrictMode>

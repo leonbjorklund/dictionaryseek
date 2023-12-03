@@ -3,6 +3,7 @@ import { Button, Menu, MenuButton, MenuItem, MenuList, Spacer, useColorModeValue
 import { useAppContext } from "../utils/AppContext";
 
 export default function FavoritesMenu() {
+  // override default Chakra UI färgvärden för menutitems färg och bakgrundsfärg
   const menuItemBg = useColorModeValue("gray.100", "#2C313D");
   const menuItemHoverBg = useColorModeValue("gray.200", "#3F444E");
   const menuItemColor = useColorModeValue("gray.900", "white");

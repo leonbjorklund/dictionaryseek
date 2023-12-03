@@ -29,7 +29,7 @@ export default function SearchBar() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    performSearch(inputValue);
+    performSearch(inputValue); // hook för att söka efter ordet, från useSearch
   };
 
   return (
