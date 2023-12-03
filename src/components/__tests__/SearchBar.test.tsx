@@ -17,7 +17,6 @@ describe("Search functionality", () => {
     userEvent.click(screen.getByRole("button", { name: "Search" }));
 
     await waitFor(() => {
-      // Replace this with the actual text or element you expect to see
       expect(screen.getByText("hello")).toBeInTheDocument();
     });
   });
