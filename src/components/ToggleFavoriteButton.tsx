@@ -10,7 +10,6 @@ type ToggleFavoriteButtonProps = {
 export default function ToggleFavoriteButton({ wordData }: ToggleFavoriteButtonProps) {
   const toast = useToast();
   const { favorites, setFavorites } = useAppContext();
-
   // Kolla om ordet redan finns i favorites
   const isFavorited = favorites.some((fav) => fav.word === wordData.word);
 

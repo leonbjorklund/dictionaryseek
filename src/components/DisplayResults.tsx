@@ -16,7 +16,7 @@ export default function DisplayResults() {
   // ta första fonetiska uttalet
   const firstPhonetic = searchResult.phonetics?.find((phonetic) => phonetic.text);
 
-  // visa mer/visa mindre
+  // expandera eller kollapsa definitioner
   const toggleShowMore = (index: number) => {
     setShowMoreStates((prev) => ({
       ...prev,

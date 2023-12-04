@@ -5,7 +5,7 @@ import App from "./App";
 import { AppProvider } from "./utils/AppContext";
 
 const container = document.getElementById("root");
-const root = createRoot(container as HTMLElement); // Create a root with type assertion
+const root = createRoot(container as HTMLElement);
 
 root.render(
   <React.StrictMode>

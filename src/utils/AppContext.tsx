@@ -2,7 +2,7 @@ import { ReactNode, createContext, useContext, useState } from "react";
 import { SearchResult, WordData } from "./DataTypes";
 import { useFavorites } from "./useFavorites";
 
-// kontext används för att dela data mellan komponenter, så vi slipper props drilling
+// kontext används för att dela data mellan komponenter, så vi slipper prop-drilling
 interface AppContextType {
   clearSearch: boolean;
   setClearSearch: (value: boolean) => void;
@@ -17,6 +17,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export function AppProvider({ children }: { children: ReactNode }) {
   const [clearSearch, setClearSearch] = useState<boolean>(false);
   const [searchResult, setSearchResult] = useState<SearchResult | null>(null);
+  // hook för hantera favorites i session-storage
   const { favorites, setFavorites } = useFavorites();
 
   return (

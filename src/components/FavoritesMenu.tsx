@@ -25,6 +25,7 @@ export default function FavoritesMenu() {
             ) : (
               favorites.map((wordData, index) => (
                 <MenuItem
+                  aria-hidden="true"
                   key={index}
                   borderRadius={index === 0 ? "5px 5px 0 0" : index === favorites.length - 1 ? "0 0 5px 5px" : "0"}
                   bg={menuItemBg}
